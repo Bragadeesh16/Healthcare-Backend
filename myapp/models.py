@@ -16,26 +16,25 @@ class DoctorProfile(models.Model):
     experience = models.IntegerField()
     phone_number = models.CharField(max_length=15)
     address = models.TextField()
-    doctor_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    doctor_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False,null=True, blank=True)
     gender = models.CharField(max_length=10 ,choices= GENDER_CHOICES)
     date_of_birth = models.DateField()
     
 
     def __str__(self):
-        return self.user.email
+        return self.email
     
 class PatientProfile(models.Model): 
-    patient_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    patient_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False,null=True, blank=True)
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
     address = models.TextField()
     gender = models.CharField(max_length = 15, choices = GENDER_CHOICES)
 
 
-# class Patient_Doctor_Mapping(models.Model):
-#     patient = models.ForeignKey(, on_delete=models.CASCADE, related_name="patient")
-#     doctor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="doctor")
-    
+class PatientDoctorMapping(models.Model):
+    patient = models.ForeignKey(PatientProfile, on_delete=models.CASCADE, related_name="mappings")
+    doctor = models.ForeignKey(DoctorProfile, on_delete=models.CASCADE, related_name="mappings")
 
-#     def __str__(self):
-#         return f"{self.patient} - {self.doctor}"
+    def __str__(self):
+        return f"{self.patient.name} - {self.doctor.name}"

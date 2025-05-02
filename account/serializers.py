@@ -26,7 +26,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         if not email.endswith('@gmail.com'):
             raise serializers.ValidationError({'email error': 'Enter a valid Gmail address'})
 
-
         if len(password) < 8 :
             raise serializers.ValidationError({'password1 error':'you password must minimum 8 characters'})
 
